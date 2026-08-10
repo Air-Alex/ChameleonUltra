@@ -38,6 +38,17 @@ jobs:
               return;
             }
 
+            const { data: pull } = await github.rest.pulls.get({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: pullNumber,
+            });
+
+            if (pull.head.sha !== run.head_sha) {
+              core.notice(`Skipping superseded workflow run ${run.id}`);
+              return;
+            }
+
             const marker = '<!-- chameleon-ultra-pr-build-artifacts -->';
             const lines = [marker, `# Build result for commit ${run.head_sha}`, ''];
 

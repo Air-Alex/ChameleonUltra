@@ -15,10 +15,7 @@ on:
 jobs:
   build_fw_builder:
     name: Build fw-builder Docker image
-    runs-on: ubuntu-latest
-    permissions:
-      packages: write
-      contents: read
+    runs-on: ubuntu-latest # Inherits permissions from caller
     outputs:
       image_ref: ${{ steps.published-image.outputs.image_ref || steps.local-image.outputs.image_ref }}
     steps:
